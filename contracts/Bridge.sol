@@ -249,9 +249,18 @@ contract Bridge is Pausable, AccessControl, SafeMath {
         - _noVotes Number of votes against proposal.
         - _status Current status of proposal.
      */
-    function getProposal(uint8 originChainID, uint64 depositNonce, bytes32 dataHash) external view returns (Proposal memory) {
+        // bytes32 _resourceID;
+        // bytes32 _dataHash;
+        // address[] _yesVotes;
+        // address[] _noVotes;
+        // ProposalStatus _status;
+        // uint256 _proposedBlock;
+
+    function getProposal(uint8 originChainID, uint64 depositNonce, bytes32 dataHash) external view returns (uint8,bytes32,bytes32,uint256) {
         uint72 nonceAndID = (uint72(depositNonce) << 8) | uint72(originChainID);
-        return _proposals[nonceAndID][dataHash];
+        Proposal memory _proposal = _proposals[nonceAndID][dataHash];
+
+        return (uint8(_proposal._status),_proposal._resourceID, _proposal._dataHash , _proposal._proposedBlock);
     }
 
     /**
